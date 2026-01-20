@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'simple_topic_publisher = demo_topic_pkg.simple_topic_publisher:main',
+            'simple_topic_subscriber = demo_topic_pkg.simple_topic_subscriber:main',
         ],
     },
 )
