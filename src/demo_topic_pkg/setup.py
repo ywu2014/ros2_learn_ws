@@ -1,4 +1,5 @@
 from setuptools import find_packages, setup
+from glob import glob
 
 package_name = 'demo_topic_pkg'
 
@@ -10,6 +11,7 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        ('share/' + package_name + '/launch', glob('launch/*.py')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -24,6 +26,7 @@ setup(
             'simple_topic_subscriber = demo_topic_pkg.simple_topic_subscriber:main',
             'custom_topic_publisher = demo_topic_pkg.custom_topic_publisher:main',
             'custom_topic_subscriber = demo_topic_pkg.custom_topic_subscriber:main',
+            'simple_topic_publisher_parameterized = demo_topic_pkg.simple_topic_publisher_parameterized:main',
         ],
     },
 )
