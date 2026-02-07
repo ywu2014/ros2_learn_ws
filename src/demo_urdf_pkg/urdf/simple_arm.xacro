@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="simple_arm"
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <material name="Cyan1">
+    <color rgba="0 0.5 0.5 1"/>
+  </material>
+  <material name="yellow">
+    <color rgba="1 1 0 1"/>
+  </material>
+  <material name="green">
+    <color rgba="0 1 0 1"/>
+  </material>
+  <material name="blue">
+    <color rgba="0 0 1 1"/>
+  </material>
+  <material name="red">
+    <color rgba="1 0 0 1"/>
+  </material>
+  <!-- 底座 -->
+  <link name="base_link">
+    <innrtial>
+      <origin xyz="0.0 0.0 0.05" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.001"/>
+    </innrtial>
+    <visual>
+      <origin xyz="0.0 0.0 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.3 0.3 0.1"/>
+      </geometry>
+      <material name="Cyan1"/>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.3 0.3 0.1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- link1 -->
+  <xacro:macro name="arm" params="suffix length color_name joint_origin_z parent child">
+    <link name="link${suffix}">
+      <inertial>
+        <origin xyz="0.0 0.0 ${length/2}" rpy="0 0 0"/>
+        <mass value="1"/>
+        <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual>
+        <origin xyz="0.0 0.0 ${length/2}" rpy="0 0 0"/>
+        <geometry>
+          <cylinder length="${length}" radius="0.05"/>
+        </geometry>
+        <material name="${color_name}"/>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 ${length/2}" rpy="0 0 0"/>
+        <geometry>
+          <cylinder length="${length}" radius="0.05"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="joint${suffix}" type="revolute">
+      <origin xyz="0.0 0.0 ${joint_origin_z}" rpy="0 0 0"/>
+      <parent link="${parent}"/>
+      <child link="${child}"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="-3.14" upper="3.14" effort="100" velocity="1"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="hand" params="prefix color_name joint_origin_y axis_y mimic_joint">
+    <link name="${prefix}_link">
+      <inertial>
+        <origin xyz="0.0 0.0 0.05" rpy="0 0 0"/>
+        <mass value="1"/>
+        <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual>
+        <origin xyz="0.0 0.0 0.05" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.1 0.05 0.1"/>
+        </geometry>
+        <material name="${color_name}"/>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 0.05" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.1 0.2 0.05"/>
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${prefix}_joint" type="prismatic">
+      <origin xyz="0.0 ${joint_origin_y} 0.05" rpy="0 0 0"/>
+      <parent link="gripper_base_link"/>
+      <child link="${prefix}_link"/>
+      <axis xyz="0 ${axis_y} 0"/>
+      <limit lower="0" upper="0.05" effort="100" velocity="1"/>
+      <xacro:if value="${mimic_joint != ''}">
+        <mimic joint="${mimic_joint}"/>
+      </xacro:if>
+    </joint>
+  </xacro:macro>
+
+  <xacro:arm suffix="1" length="0.1" color_name="yellow" joint_origin_z="0.1" parent="base_link" child="link1"/>
+  <xacro:arm suffix="2" length="0.3" color_name="green" joint_origin_z="0.1" parent="link1" child="link2"/>
+  <xacro:arm suffix="3" length="0.3" color_name="blue" joint_origin_z="0.3" parent="link2" child="link3"/>
+  <xacro:arm suffix="4" length="0.3" color_name="red" joint_origin_z="0.3" parent="link3" child="link4"/>
+  <xacro:arm suffix="5" length="0.3" color_name="green" joint_origin_z="0.3" parent="link4" child="link5"/>
+
+  <!-- 夹爪底座 -->
+  <link name="gripper_base_link">
+    <inertial>
+      <origin xyz="0.0 0.0 0.025" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.025" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.2 0.05"/>
+      </geometry>
+      <material name="Cyan7">
+        <color rgba="0 0 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.025" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.2 0.05"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="joint6" type="revolute">
+    <origin xyz="0.0 0.0 0.3" rpy="0 0 0"/>
+    <parent link="link5"/>
+    <child link="gripper_base_link"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14" upper="3.14" effort="100" velocity="1"/>
+  </joint>
+
+  <!-- 右夹爪 -->
+  <xacro:hand prefix="hand_right" color_name="red" joint_origin_y="0.075" axis_y="-1" mimic_joint=""/>
+  <!-- 左夹爪 -->
+  <xacro:hand prefix="hand_left" color_name="red" joint_origin_y="-0.075" axis_y="1" mimic_joint="hand_right_joint"/>
+</robot>
