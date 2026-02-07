@@ -41,7 +41,7 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0.0 0.0 0.05" rpy="0 0 0.6"/>
+      <origin xyz="0.0 0.0 0.05" rpy="0 0 0"/>
       <geometry>
         <cylinder length="0.1" radius="0.05"/>
       </geometry>
@@ -73,7 +73,7 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0.0 0.0 0.15" rpy="0 0 0.6"/>
+      <origin xyz="0.0 0.0 0.15" rpy="0 0 0"/>
       <geometry>
         <cylinder length="0.3" radius="0.05"/>
       </geometry>
@@ -105,7 +105,7 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0.0 0.0 0.15" rpy="0 0 0.6"/>
+      <origin xyz="0.0 0.0 0.15" rpy="0 0 0"/>
       <geometry>
         <cylinder length="0.3" radius="0.05"/>
       </geometry>
@@ -137,7 +137,7 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0.0 0.0 0.15" rpy="0 0 0.6"/>
+      <origin xyz="0.0 0.0 0.15" rpy="0 0 0"/>
       <geometry>
         <cylinder length="0.3" radius="0.05"/>
       </geometry>
@@ -169,7 +169,7 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0.0 0.0 0.15" rpy="0 0 0.6"/>
+      <origin xyz="0.0 0.0 0.15" rpy="0 0 0"/>
       <geometry>
         <cylinder length="0.3" radius="0.05"/>
       </geometry>
